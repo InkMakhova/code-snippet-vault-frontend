@@ -39,7 +39,7 @@ export function SnippetsPage() {
     <Card>
       <div className={styles.menu}>
         <SearchForm onSearch={() => {}} />
-        <Button>Add snippet</Button>
+        <Button>Create</Button>
       </div>
 
       <Table snippets={mockSnippets} onDelete={handleDelete} />

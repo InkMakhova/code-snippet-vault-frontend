@@ -39,12 +39,81 @@
 }
 
 .pre {
+    position: relative;
+    min-inline-size: 17rem;
     background: var(--bg-input);
-    padding: 10px 12px;
+    padding: 0.625rem 1.75rem 0.625rem 0.75rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-subtle);
     font-family: var(--font-mono);
     font-size: 0.85rem;
     white-space: pre-wrap;
     color: var(--text-primary);
+}
+
+.copy {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.25rem;
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 0.25rem;
+}
+
+.copy svg {
+    display: block;
+}
+
+.menu-button {
+    background: transparent;
+    border: none;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+.menu-button:hover {
+    background: var(--bg-table-row-alt);
+    color: var(--text-primary);
+}
+
+.menu {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 4px 0;
+    min-width: 140px;
+}
+
+.menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.menu-item:hover {
+    background: var(--accent-soft);
+}
+
+.menu-item-delete {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--text-danger);
+}
+
+.menu-item-delete:hover {
+    background: rgba(248, 81, 73, 0.18);
 }
