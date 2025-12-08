@@ -1,6 +1,6 @@
 .container {
     border-radius: var(--radius-lg);
-    overflow: hidden;
+    overflow-x: auto;
     border: 1px solid var(--border-subtle);
 }
 
@@ -36,12 +36,23 @@
     padding: 12px;
     border-bottom: 1px solid var(--border-subtle);
     vertical-align: top;
+    font-size: 0.85rem;
+    font-weight: 300;
+}
+
+.table td:last-child {
+    text-align: center;
+}
+
+.table td:has(pre) {
+    padding-block: 0;
+    width: 40%;
 }
 
 .pre {
     position: relative;
     min-inline-size: 17rem;
-    background: var(--bg-input);
+    background: var(--bg-card);
     padding: 0.625rem 1.75rem 0.625rem 0.75rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-subtle);
@@ -49,6 +60,9 @@
     font-size: 0.85rem;
     white-space: pre-wrap;
     color: var(--text-primary);
+    line-height: 1.4;
+    max-block-size: 22rem;
+    overflow: auto;
 }
 
 .copy {
