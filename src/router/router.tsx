@@ -6,6 +6,16 @@ import {
 import { PageLayout } from '../layouts/PageLayout';
 import { SnippetsPage } from '../pages/SnippetsPage/SnippetsPage.tsx';
 import { SnippetPage } from "../pages/SnippetPage/SnippetPage.tsx";
+import { Suspense } from "react";
+import { Skeleton } from "../components/Skeleton/Skeleton.tsx";
+
+function SnippetsPageWithSuspense() {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <SnippetsPage />
+    </Suspense>
+  );
+}
 
 // Root route uses PageLayout
 const rootRoute = createRootRoute({
@@ -15,7 +25,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: SnippetsPage,
+  component: SnippetsPageWithSuspense,
 });
 
 const snippetRoute = createRoute({

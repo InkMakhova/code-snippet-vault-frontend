@@ -8,33 +8,8 @@ import { Header } from "../../components/Header/Header.tsx";
 import { Table } from "../../components/Table/Table.tsx";
 import { SearchForm } from "../../forms/SearchForm/SearchForm.tsx";
 import { CreateSnippetModal } from "../../modals/CreateSnippetModal/CreateSnippetModal.tsx";
-import type { Types } from "../../types/types.ts";
 import { useToast } from "../../components/Toast/Toast.tsx";
-
-const mockSnippets: Types[] = [
-  {
-    id: "1",
-    title: "Recursion",
-    language: "js",
-    code: "<code> snippet </code>",
-    description: "Description somewhat",
-    tags: ["recursion", "programming"],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Test snippet C++",
-    language: "C++",
-    code: `#include <iostream>
-int main() {
-  std::cout << "Hello World!";
-  return 0;
-}`,
-    description: "Hello world snippet in C++",
-    tags: ["C++", "programming", "snippet"],
-    createdAt: new Date().toISOString(),
-  },
-];
+import { useGetSnippetsQuery } from "../../hooks/useGetSnippetsQuery.ts";
 
 export function SnippetsPage() {
   const [createSnippetModalOpen, setCreateSnippetModalOpen] = useState(false);
@@ -47,6 +22,8 @@ export function SnippetsPage() {
     // TODO: call backend / mutation here
     showToast("Snippet created successfully!");
   }
+
+  const { data } = useGetSnippetsQuery();
 
   return (
     <>
@@ -67,7 +44,7 @@ export function SnippetsPage() {
             )}
           </DialogTrigger>
         </div>
-        <Table snippets={mockSnippets} onDelete={handleDelete} />
+        <Table snippets={data} onDelete={handleDelete} />
       </Card>
     </>
   )

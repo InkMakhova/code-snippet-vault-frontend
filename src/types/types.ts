@@ -1,11 +1,11 @@
 export interface Types {
-  id: string;
+  _id: string;
   title: string;
   language: string;
   code: string;
   description: string;
   tags: string[];
-  createdAt: string; // ISO string
+  created_at: string; // ISO string
 }
 
 export interface SearchFormValues {

@@ -47,7 +47,7 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
         </TableHeader>
         <TableBody>
           {snippets.map((snippet) => (
-            <Row key={snippet.id}>
+            <Row key={snippet._id}>
               <Cell>{snippet.title}</Cell>
               <Cell>{snippet.language}</Cell>
               <Cell>
@@ -63,7 +63,7 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
               <Cell>{snippet.description}</Cell>
               <Cell>{snippet.tags.join(", ")}</Cell>
               <Cell>
-                {dayjs(snippet.createdAt).format("DD.MM.YYYY, HH:mm")}
+                {dayjs(snippet.created_at).format("DD.MM.YYYY, HH:mm")}
               </Cell>
               <Cell>
                 <MenuTrigger>
@@ -73,14 +73,14 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
                       <MenuItem
                         className={styles["menu-item"]}
                         onAction={() =>
-                          navigate({ to: "/snippets/$snippetId", params: { snippetId: snippet.id } })
+                          navigate({ to: "/snippets/$snippetId", params: { snippetId: snippet._id } })
                         }
                       >
                         Edit
                       </MenuItem>
                       <MenuItem
                         className={styles["menu-item-delete"]}
-                        onAction={() => onDelete?.(snippet.id)}
+                        onAction={() => onDelete?.(snippet._id)}
                       >
                         Delete
                       </MenuItem>
