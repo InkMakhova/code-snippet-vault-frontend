@@ -14,9 +14,8 @@ import { useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 
 import styles from "./Table.module.css";
-import CopyIcon from "../../assets/copy-icon.svg?react";
 import type { Types } from "../../types/types.ts";
-import {useToast} from "../Toast/Toast.tsx";
+import { CopyButton } from "../CopyButton/CopyButton.tsx";
 
 const columns = [
   "Title",
@@ -35,7 +34,6 @@ interface SnippetsTableProps {
 
 export function Table({ snippets, onDelete }: SnippetsTableProps) {
   const navigate = useNavigate();
-  const { showToast } = useToast();
 
   return (
     <div className={styles.container}>
@@ -55,16 +53,11 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
               <Cell>
                 <pre className={styles.pre}>
                   <code>{snippet.code}</code>
-                  <Button
-                    className={styles.copy}
-                    aria-label="copy code snippet"
-                    onPress={async () => {
-                      await navigator.clipboard.writeText(snippet.code);
-                      showToast("Code copied!");
-                    }}
-                  >
-                    <CopyIcon width="1rem" height="1rem"/>
-                  </Button>
+                  <CopyButton
+                    textToCopy={snippet.code}
+                    toastText="Code copied!"
+                    ariaLabel="copy code snippet"
+                  />
                 </pre>
               </Cell>
               <Cell>{snippet.description}</Cell>
@@ -79,11 +72,12 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
                     <Menu className={styles.menu}>
                       <MenuItem
                         className={styles["menu-item"]}
-                        onAction={() => navigate({ to: "/snippets/$snippetId", params: { snippetId: snippet.id } })}
+                        onAction={() =>
+                          navigate({ to: "/snippets/$snippetId", params: { snippetId: snippet.id } })
+                        }
                       >
                         Edit
                       </MenuItem>
-
                       <MenuItem
                         className={styles["menu-item-delete"]}
                         onAction={() => onDelete?.(snippet.id)}

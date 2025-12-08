@@ -1,0 +1,10 @@
+.header-container {
+    align-self: start;
+}
+
+.header-title {
+    margin: 0 0 14px 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}

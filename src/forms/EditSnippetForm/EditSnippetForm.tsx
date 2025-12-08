@@ -4,6 +4,7 @@ import {
 import { useForm } from "react-hook-form";
 
 import styles from "./EditSnippetForm.module.css"
+import { CopyButton } from "../../components/CopyButton/CopyButton.tsx";
 
 type SnippetFormValues = {
   title: string;
@@ -15,12 +16,14 @@ type SnippetFormValues = {
 
 type Props = {
   onSubmit: (values: SnippetFormValues) => void;
-  onClose?: () => void;
+  onClose: () => void;
+  isModal?: boolean;
 };
 
 export function EditSnippetForm({
   onSubmit,
   onClose,
+  isModal,
 }: Props) {
   const {
     register,
@@ -42,22 +45,23 @@ export function EditSnippetForm({
       onSubmit={handleSubmit((values) => {
         onSubmit(values);
         reset();
-        if (onClose) onClose();
+        onClose();
       })}
     >
-      {/* Header */}
-      <div className={styles.header}>
-        <Heading slot="title" className={styles.title}>
-          Create snippet
-        </Heading>
-        <Button
-          aria-label="Close"
-          onPress={() => close()}
-          className={styles.closeButton}
-        >
-          ×
-        </Button>
-      </div>
+      {isModal && (
+        <div className={styles.header}>
+          <Heading slot="title" className={styles.title}>
+            Create snippet
+          </Heading>
+          <Button
+            aria-label="Close"
+            className={styles.closeButton}
+            onPress={onClose}
+          >
+            ×
+          </Button>
+        </div>
+      )}
 
       <div className={styles.row}>
         <TextField className={styles.field}>
@@ -65,6 +69,7 @@ export function EditSnippetForm({
           <Input
             className={styles.input}
             {...register("title", { required: true })}
+            placeholder="input title"
           />
         </TextField>
 
@@ -73,6 +78,7 @@ export function EditSnippetForm({
           <Input
             className={styles.input}
             {...register("language", { required: true })}
+            placeholder="input language"
           />
         </TextField>
 
@@ -93,36 +99,42 @@ export function EditSnippetForm({
             className={styles.textarea}
             rows={3}
             {...register("description")}
+            placeholder="input description"
           />
         </TextField>
       </div>
 
-      {/* Row 3: Code textarea (full width, 15 lines) */}
       <div className={styles.rowFull}>
         <TextField className={styles.fieldFull}>
           <Label className={styles.label}>Code</Label>
-          <TextArea
-            className={`${styles.textarea} ${styles.codeArea}`}
-            rows={15}
-            {...register("code", { required: true })}
-          />
+            <TextArea
+              className={`${styles.textarea} ${styles.codeArea}`}
+              rows={20}
+              {...register("code", { required: true })}
+              placeholder="input code snippet"
+            />
+            {!isModal? (
+              <CopyButton
+                textToCopy={"some"}
+                toastText="Code copied!"
+                ariaLabel="copy code snippet"
+              />) : null
+            }
         </TextField>
+
       </div>
 
       <div className={styles.footer}>
-        {onClose && (
-          <Button
-            type="button"
-            className={styles.cancel}
-            onPress={() => {
-              reset();
-              onClose();
-            }}
-          >
-            Cancel
-          </Button>
-
-        )}
+        <Button
+          type="button"
+          className={styles.cancel}
+          onPress={() => {
+            reset();
+            onClose();
+          }}
+        >
+          Cancel
+        </Button>
         <Button type="submit" className={styles.submit}>
           Create snippet
         </Button>

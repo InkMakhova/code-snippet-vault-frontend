@@ -28,7 +28,11 @@ export function CreateSnippetModal({ isOpen, onClose, onCreate }: Props) {
     >
       <Modal className={styles.modal}>
         <Dialog className={styles.dialog}>
-          <EditSnippetForm onSubmit={onCreate} onClose={onClose} />
+          <EditSnippetForm
+            isModal
+            onSubmit={onCreate}
+            onClose={onClose}
+          />
         </Dialog>
       </Modal>
     </ModalOverlay>

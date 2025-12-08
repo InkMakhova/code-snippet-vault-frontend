@@ -28,33 +28,16 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono", "Courier New", monospace;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
+  margin: 0 auto;
+  max-inline-size: 86rem;
 }
 
-/* === GLOBAL === */
 body {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0 2.5rem;
+  block-size: 100%;
   background: var(--bg-body);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  padding-inline: 2.5rem;
-}
-
-/* DELETE BUTTON */
-.snippets-delete-button {
-  padding: 6px 14px;
-  border-radius: var(--radius-md);
-  background: transparent;
-  border: 1px solid var(--text-danger);
-  color: var(--text-danger);
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: background 0.15s;
-}
-
-.snippets-delete-button:hover {
-  background: rgba(248, 81, 73, 0.15);
 }

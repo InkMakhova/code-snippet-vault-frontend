@@ -65,28 +65,10 @@
     overflow: auto;
 }
 
-.copy {
+.pre button {
     position: absolute;
     top: 0.35rem;
     right: 0.25rem;
-    background: transparent;
-    border: none;
-    padding: 0.25rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.copy:hover {
-    background: var(--accent-soft);
-    color: var(--accent);
-    border-radius: 0.25rem;
-}
-
-.copy svg {
-    display: block;
 }
 
 .menu-button {
