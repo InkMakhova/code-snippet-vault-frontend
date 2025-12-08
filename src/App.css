@@ -1,4 +1,4 @@
-/* === COLOR TOKENS (exactly as provided) === */
+/* === COLOR TOKENS === */
 :root {
   color-scheme: dark;
 
@@ -32,6 +32,7 @@
   max-inline-size: 86rem;
 }
 
+/* === GLOBAL === */
 body {
   box-sizing: border-box;
   margin: 0;
