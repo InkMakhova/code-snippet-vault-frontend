@@ -1,0 +1,142 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.closeButton {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.closeButton:hover {
+    background: var(--bg-table-row-alt);
+    color: var(--text-primary);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.rowFull {
+    display: block;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fieldFull {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.input {
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+}
+
+.textarea {
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+.codeArea {
+    font-family: var(--font-mono);
+}
+
+/* FOOTER BUTTONS */
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.cancel {
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-body);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.cancel:hover {
+    background: var(--bg-table-row-alt);
+}
+
+.submit {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background: var(--accent-hover);
+}
+
+.openButton {
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+.openButton:hover {
+    background: var(--accent-hover);
+    color: #fff;
+}

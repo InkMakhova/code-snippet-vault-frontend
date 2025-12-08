@@ -1,9 +1,13 @@
-import {SearchForm} from "../../forms/SearchForm/SearchForm.tsx";
-import {Button} from "../../components/Button/Button.tsx";
-import type {Types} from "../../types/types.ts";
-import {Card} from "../../components/Card/Card.tsx";
+import { useState } from "react";
+import { DialogTrigger } from "react-aria-components";
+
 import styles from "./SnippetsPage.module.css";
-import {Table} from "../../components/Table/Table.tsx";
+import { Button } from "../../components/Button/Button.tsx";
+import { Card } from "../../components/Card/Card.tsx";
+import { Table } from "../../components/Table/Table.tsx";
+import { SearchForm } from "../../forms/SearchForm/SearchForm.tsx";
+import { CreateSnippetModal } from "../../modals/CreateSnippetModal/CreateSnippetModal.tsx";
+import type { Types } from "../../types/types.ts";
 
 const mockSnippets: Types[] = [
   {
@@ -31,6 +35,7 @@ int main() {
 ];
 
 export function SnippetsPage() {
+  const [createSnippetModalOpen, setCreateSnippetModalOpen] = useState(false);
   function handleDelete(snippetId: string) {
     console.log(snippetId)
   }
@@ -39,7 +44,18 @@ export function SnippetsPage() {
     <Card>
       <div className={styles.menu}>
         <SearchForm onSearch={() => {}} />
-        <Button>Create</Button>
+        <DialogTrigger>
+          <Button onPress={() => setCreateSnippetModalOpen(true)}>
+            Create
+          </Button>
+          {createSnippetModalOpen && (
+            <CreateSnippetModal
+              isOpen={createSnippetModalOpen}
+              onClose={() => setCreateSnippetModalOpen(false)}
+              onCreate={() => {}}
+            />
+          )}
+        </DialogTrigger>
       </div>
 
       <Table snippets={mockSnippets} onDelete={handleDelete} />
