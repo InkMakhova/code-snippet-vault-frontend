@@ -34,7 +34,6 @@ interface SnippetsTableProps {
 
 export function Table({ snippets, onDelete }: SnippetsTableProps) {
   const navigate = useNavigate();
-
   return (
     <div className={styles.container}>
       <AriaTable aria-label="Code snippets" className={styles.table}>
@@ -46,7 +45,8 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
           ))}
         </TableHeader>
         <TableBody>
-          {snippets.map((snippet) => (
+          {snippets.length > 0 ?
+            snippets.map((snippet) => (
             <Row key={snippet._id}>
               <Cell>{snippet.title}</Cell>
               <Cell>{snippet.language}</Cell>
@@ -88,8 +88,11 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
                   </Popover>
                 </MenuTrigger>
               </Cell>
+            </Row>)) :
+            <Row>
+              <Cell colSpan={7}>No snippets data</Cell>
             </Row>
-          ))}
+          }
         </TableBody>
       </AriaTable>
     </div>

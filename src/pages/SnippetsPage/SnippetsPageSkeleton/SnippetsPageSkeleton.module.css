@@ -1,0 +1,56 @@
+.header {
+    margin-bottom: 18px;
+}
+
+.headerBar {
+    width: 220px;
+    height: 28px;
+    border-radius: var(--radius-md);
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.search {
+    width: 260px;
+    height: 36px;
+    border-radius: var(--radius-md);
+}
+
+.button {
+    width: 100px;
+    height: 36px;
+    border-radius: var(--radius-md);
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tableHeaderCell {
+    height: 18px;
+    border-radius: var(--radius-md);
+}
+
+.tableBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+}
+
+.cell {
+    height: 20px;
+    border-radius: var(--radius-md);
+}

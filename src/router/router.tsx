@@ -7,11 +7,11 @@ import { PageLayout } from '../layouts/PageLayout';
 import { SnippetsPage } from '../pages/SnippetsPage/SnippetsPage.tsx';
 import { SnippetPage } from "../pages/SnippetPage/SnippetPage.tsx";
 import { Suspense } from "react";
-import { Skeleton } from "../components/Skeleton/Skeleton.tsx";
+import { SnippetsPageSkeleton } from "../pages/SnippetsPage/SnippetsPageSkeleton/SnippetsPageSkeleton.tsx";
 
 function SnippetsPageWithSuspense() {
   return (
-    <Suspense fallback={<Skeleton />}>
+    <Suspense fallback={<SnippetsPageSkeleton />}>
       <SnippetsPage />
     </Suspense>
   );
