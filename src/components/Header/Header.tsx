@@ -8,6 +8,7 @@ type Props = {
   headerText: string;
   isHome?: boolean;
 }
+
 export function Header({
   headerText,
   isHome
@@ -15,7 +16,7 @@ export function Header({
   return (
     <div className={styles['header-container']}>
       <div className={styles['header']}>
-        {isHome ? (<HomeIcon width={26} height={26} />) : null}
+        {isHome ? (<HomeIcon width={28} height={28} />) : null}
         <h1 className={styles['header-title']}>
           {headerText}
         </h1>
