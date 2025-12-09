@@ -1,5 +1,11 @@
 .header-container {
     align-self: start;
+    inline-size: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
 }
 
 .header-title {
@@ -7,4 +13,25 @@
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--text-primary);
+}
+
+.github-link {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    color: var(--text-muted);
+    transition: 0.15s ease;
+}
+
+.github-link:hover {
+    background: var(--bg-table-row-alt);
+    color: var(--text-primary);
+}
+
+.github-link svg {
+    width: 20px;
+    height: 20px;
 }
