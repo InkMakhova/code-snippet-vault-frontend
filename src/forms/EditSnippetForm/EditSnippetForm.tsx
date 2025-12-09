@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 
 import styles from "./EditSnippetForm.module.css"
 import { CopyButton } from "../../components/CopyButton/CopyButton.tsx";
+import { useCreateSnippetMutation } from "../../hooks/mutations/useCreateSnippetMutation.ts";
+import { useToast } from "../../components/Toast/Toast.tsx";
+import type { CreateSnippetPayload } from "../../types/types.ts";
 
 type SnippetFormValues = {
   title: string;
@@ -15,13 +18,11 @@ type SnippetFormValues = {
 };
 
 type Props = {
-  onSubmit: (values: SnippetFormValues) => void;
   onClose: () => void;
   isModal?: boolean;
 };
 
 export function EditSnippetForm({
-  onSubmit,
   onClose,
   isModal,
 }: Props) {
@@ -39,13 +40,42 @@ export function EditSnippetForm({
     },
   });
 
+  const { showToast } = useToast();
+  const { mutate, isPending } = useCreateSnippetMutation();
+
+  function handleCreateSnippet(
+    values: Omit<CreateSnippetPayload, "tags"> & { tags: string }
+  ) {
+    const tags = values.tags
+      ?.split(',')
+      ?.map((tag) => tag.trim())
+      ?.filter((tag): tag is string => tag.length > 0) || [];
+
+    const payload: CreateSnippetPayload = {
+      title: values.title,
+      language: values.language,
+      code: values.code,
+      description: values.description,
+      tags: tags,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        showToast("Snippet created successfully!");
+        reset();
+        onClose();
+      },
+      onError: () => {
+        showToast("Failed to create snippet");
+      },
+    });
+  }
+
   return (
     <form
       className={styles.form}
       onSubmit={handleSubmit((values) => {
-        onSubmit(values);
-        reset();
-        onClose();
+        handleCreateSnippet(values)
       })}
     >
       {isModal && (
@@ -127,16 +157,21 @@ export function EditSnippetForm({
       <div className={styles.footer}>
         <Button
           type="button"
-          className={styles.cancel}
+          className={`${styles.cancel} ${isPending ? styles.loading : ""}`}
           onPress={() => {
             reset();
             onClose();
           }}
+          isDisabled={isPending}
         >
           Cancel
         </Button>
-        <Button type="submit" className={styles.submit}>
-          Create snippet
+        <Button
+          type="submit"
+          className={`${styles.submit} ${isPending ? styles.loading : ""}`}
+          isDisabled={isPending}
+        >
+          {isPending ? "Creating..." : "Create snippet"}
         </Button>
       </div>
     </form>

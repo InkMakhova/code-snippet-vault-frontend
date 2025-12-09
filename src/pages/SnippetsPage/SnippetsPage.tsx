@@ -8,29 +8,10 @@ import { Header } from "../../components/Header/Header.tsx";
 import { Table } from "../../components/Table/Table.tsx";
 import { SearchForm } from "../../forms/SearchForm/SearchForm.tsx";
 import { CreateSnippetModal } from "../../modals/CreateSnippetModal/CreateSnippetModal.tsx";
-import { useToast } from "../../components/Toast/Toast.tsx";
 import { useGetSnippetsQuery } from "../../hooks/queries/useGetSnippetsQuery.ts";
-import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
 
 export function SnippetsPage() {
   const [createSnippetModalOpen, setCreateSnippetModalOpen] = useState(false);
-
-  const { showToast } = useToast();
-  const { mutate } = useDeleteSnippetMutation();
-
-  function handleDelete(snippetId: string) {
-    mutate(snippetId,{
-      onSuccess: () => {
-        showToast("Successfully deleted snippet")
-      },
-      onError: () => showToast("Failed to delete snippet"),
-    })
-  }
-
-  function handleCreateSnippet(/*snippet: CreateSnippetModal*/) {
-    // TODO: call backend / mutation here
-    showToast("Snippet created successfully!");
-  }
 
   const { data } = useGetSnippetsQuery({ lang: "" });
 
@@ -48,15 +29,11 @@ export function SnippetsPage() {
               <CreateSnippetModal
                 isOpen={createSnippetModalOpen}
                 onClose={() => setCreateSnippetModalOpen(false)}
-                onCreate={handleCreateSnippet}
               />
             )}
           </DialogTrigger>
         </div>
-        <Table
-          snippets={data}
-          onDelete={handleDelete}
-        />
+        <Table snippets={data} />
       </Card>
     </>
   )

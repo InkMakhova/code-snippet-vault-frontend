@@ -14,8 +14,10 @@ import { useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 
 import styles from "./Table.module.css";
-import type { Types } from "../../types/types.ts";
 import { CopyButton } from "../CopyButton/CopyButton.tsx";
+import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
+import { useToast } from "../Toast/Toast.tsx";
+import type { Snippet } from "../../types/types.ts";
 
 const columns = [
   "Title",
@@ -28,12 +30,23 @@ const columns = [
 ];
 
 interface SnippetsTableProps {
-  snippets: Types[];
-  onDelete: (id: string) => void;
+  snippets: Snippet[];
 }
 
-export function Table({ snippets, onDelete }: SnippetsTableProps) {
+export function Table({ snippets }: SnippetsTableProps) {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { mutate } = useDeleteSnippetMutation();
+
+  function handleDelete(snippetId: string) {
+    mutate(snippetId,{
+      onSuccess: () => {
+        showToast("Successfully deleted snippet")
+      },
+      onError: () => showToast("Failed to delete snippet"),
+    })
+  }
+
   return (
     <div className={styles.container}>
       <AriaTable aria-label="Code snippets" className={styles.table}>
@@ -80,7 +93,7 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
                       </MenuItem>
                       <MenuItem
                         className={styles["menu-item-delete"]}
-                        onAction={() => onDelete(snippet._id)}
+                        onAction={() => handleDelete(snippet._id)}
                       >
                         Delete
                       </MenuItem>

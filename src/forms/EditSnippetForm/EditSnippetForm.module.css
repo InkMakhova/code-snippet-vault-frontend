@@ -117,10 +117,6 @@
     cursor: pointer;
 }
 
-.cancel:hover {
-    background: var(--bg-table-row-alt);
-}
-
 .submit {
     padding: 8px 16px;
     border-radius: var(--radius-md);
@@ -132,22 +128,23 @@
     cursor: pointer;
 }
 
-.submit:hover {
-    background: var(--accent-hover);
+.submit:hover:not([data-disabled]),
+.cancel:hover:not([data-disabled]) {
+    background: var(--bg-table-row-alt);
+    border-color: var(--accent);
 }
 
-.openButton {
-    padding: 8px 14px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-subtle);
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin-bottom: 12px;
+.submit[data-disabled],
+.cancel[data-disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: var(--bg-table-row);
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
 }
 
-.openButton:hover {
-    background: var(--accent-hover);
-    color: #fff;
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.6;
 }
