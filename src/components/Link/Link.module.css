@@ -1,0 +1,20 @@
+.link {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    color: var(--text-muted);
+    transition: 0.15s ease;
+}
+
+.link:hover {
+    background: var(--bg-table-row-alt);
+    color: var(--text-primary);
+}
+
+.link svg {
+    width: 20px;
+    height: 20px;
+}
