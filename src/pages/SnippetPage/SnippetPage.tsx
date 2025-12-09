@@ -1,6 +1,5 @@
 // import { useNavigate } from "@tanstack/react-router";
 
-import styles from "./SnippetPage.module.css";
 // import { useForm } from "react-hook-form";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs.tsx";
 import { Header } from "../../components/Header/Header.tsx";
@@ -43,7 +42,7 @@ export function SnippetPage() {
   // });
 
   return (
-    <div className={styles.container}>
+    <>
       <Breadcrumbs
         snippetTitle={snippet.title}
         snippetLanguage={snippet.language}
@@ -55,6 +54,6 @@ export function SnippetPage() {
           onClose={handleCancel}
         />
       </Card>
-    </div>
+    </>
   );
 }

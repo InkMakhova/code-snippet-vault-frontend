@@ -27,7 +27,7 @@ export function SnippetsPage() {
 
   return (
     <>
-      <Header headerText="Snippet vault" />
+      <Header headerText="Snippet vault" isHome />
       <Card>
         <div className={styles.menu}>
           <SearchForm onSearch={() => {}} />

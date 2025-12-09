@@ -1,14 +1,16 @@
 .root {
-    min-block-size: 100vh;
     min-inline-size: 22.5rem;
     max-inline-size: 100rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2.5rem;
+    padding: 1.5rem;
 }
 
 .content {
-    flex: 1;
-    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    inline-size: 100%;
+    padding: 1.25rem 1.5rem;
 }
