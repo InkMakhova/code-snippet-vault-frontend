@@ -9,13 +9,22 @@ import { Table } from "../../components/Table/Table.tsx";
 import { SearchForm } from "../../forms/SearchForm/SearchForm.tsx";
 import { CreateSnippetModal } from "../../modals/CreateSnippetModal/CreateSnippetModal.tsx";
 import { useToast } from "../../components/Toast/Toast.tsx";
-import { useGetSnippetsQuery } from "../../hooks/useGetSnippetsQuery.ts";
+import { useGetSnippetsQuery } from "../../hooks/queries/useGetSnippetsQuery.ts";
+import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
 
 export function SnippetsPage() {
   const [createSnippetModalOpen, setCreateSnippetModalOpen] = useState(false);
+
   const { showToast } = useToast();
+  const { mutate } = useDeleteSnippetMutation();
+
   function handleDelete(snippetId: string) {
-    console.log(snippetId)
+    mutate(snippetId,{
+      onSuccess: () => {
+        showToast("Successfully deleted snippet")
+      },
+      onError: () => showToast("Failed to delete snippet"),
+    })
   }
 
   function handleCreateSnippet(/*snippet: CreateSnippetModal*/) {
@@ -23,7 +32,7 @@ export function SnippetsPage() {
     showToast("Snippet created successfully!");
   }
 
-  const { data } = useGetSnippetsQuery();
+  const { data } = useGetSnippetsQuery({ lang: "" });
 
   return (
     <>
@@ -44,7 +53,10 @@ export function SnippetsPage() {
             )}
           </DialogTrigger>
         </div>
-        <Table snippets={data} onDelete={handleDelete} />
+        <Table
+          snippets={data}
+          onDelete={handleDelete}
+        />
       </Card>
     </>
   )

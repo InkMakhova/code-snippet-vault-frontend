@@ -29,7 +29,7 @@ const columns = [
 
 interface SnippetsTableProps {
   snippets: Types[];
-  onDelete?: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export function Table({ snippets, onDelete }: SnippetsTableProps) {
@@ -80,7 +80,7 @@ export function Table({ snippets, onDelete }: SnippetsTableProps) {
                       </MenuItem>
                       <MenuItem
                         className={styles["menu-item-delete"]}
-                        onAction={() => onDelete?.(snippet._id)}
+                        onAction={() => onDelete(snippet._id)}
                       >
                         Delete
                       </MenuItem>
