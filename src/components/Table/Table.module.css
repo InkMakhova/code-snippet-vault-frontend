@@ -60,7 +60,7 @@
     white-space: pre-wrap;
     color: var(--text-muted);
     line-height: 1.4;
-    max-block-size: 22rem;
+    max-block-size: 10rem;
     overflow: auto;
 }
 
