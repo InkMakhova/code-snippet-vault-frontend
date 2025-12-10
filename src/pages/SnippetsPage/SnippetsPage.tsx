@@ -12,15 +12,20 @@ import { useGetSnippetsQuery } from "../../hooks/queries/useGetSnippetsQuery.ts"
 
 export function SnippetsPage() {
   const [createSnippetModalOpen, setCreateSnippetModalOpen] = useState(false);
+  const [langFilter, setLangFilter] = useState("");
 
-  const { data } = useGetSnippetsQuery({ lang: "" });
+  const { data } = useGetSnippetsQuery({ lang: langFilter || undefined});
+
+  function handleSearch(query: string) {
+    setLangFilter(query.trim());
+  }
 
   return (
     <>
       <Header headerText="Snippet vault" isHome />
       <Card>
         <div className={styles.menu}>
-          <SearchForm onSearch={() => {}} />
+          <SearchForm onSearch={handleSearch} />
           <DialogTrigger>
             <Button onPress={() => setCreateSnippetModalOpen(true)}>
               Create snippet

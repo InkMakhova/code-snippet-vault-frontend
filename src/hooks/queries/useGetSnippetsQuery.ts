@@ -28,7 +28,7 @@ export async function fetchSnippets(filters: SnippetFilters = {}): Promise<Snipp
 
 export function useGetSnippetsQuery(filters: SnippetFilters) {
   return useSuspenseQuery<Snippet[]>({
-    queryKey: ["snippets"],
+    queryKey: ["snippets", filters],
     queryFn: () => fetchSnippets(filters),
   });
 }
