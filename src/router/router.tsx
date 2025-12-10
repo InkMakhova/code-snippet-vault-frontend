@@ -8,6 +8,7 @@ import { SnippetsPage } from '../pages/SnippetsPage/SnippetsPage.tsx';
 import { SnippetPage } from "../pages/SnippetPage/SnippetPage.tsx";
 import { Suspense } from "react";
 import { SnippetsPageSkeleton } from "../pages/SnippetsPage/SnippetsPageSkeleton/SnippetsPageSkeleton.tsx";
+import { SnippetPageSkeleton } from "../pages/SnippetPage/SnippetPageSkeleton/SnippetPageSkeleton.tsx";
 
 function SnippetsPageWithSuspense() {
   return (
@@ -17,21 +18,29 @@ function SnippetsPageWithSuspense() {
   );
 }
 
+function SnippetPageWithSuspense() {
+  return (
+    <Suspense fallback={<SnippetPageSkeleton />}>
+      <SnippetPage />
+    </Suspense>
+  );
+}
+
 // Root route uses PageLayout
-const rootRoute = createRootRoute({
+export const rootRoute = createRootRoute({
   component: PageLayout,
 });
 
-const indexRoute = createRoute({
+export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: SnippetsPageWithSuspense,
 });
 
-const snippetRoute = createRoute({
+export const snippetRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'snippets/$snippetId',
-  component: SnippetPage,
+  component: SnippetPageWithSuspense,
 });
 
 const routeTree = rootRoute.addChildren([

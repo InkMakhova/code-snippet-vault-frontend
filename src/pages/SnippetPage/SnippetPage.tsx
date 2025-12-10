@@ -1,18 +1,11 @@
-// import { useNavigate } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 
-// import { useForm } from "react-hook-form";
+import { snippetRoute } from "../../router/router.tsx";
 import { Breadcrumbs } from "../../components/Breadcrumbs/Breadcrumbs.tsx";
 import { Header } from "../../components/Header/Header.tsx";
 import { Card } from "../../components/Card/Card.tsx";
 import { EditSnippetForm } from "../../forms/EditSnippetForm/EditSnippetForm.tsx";
-
-const mockSnippet: EditSnippetFormValues = {
-  title: "Recursion snippet",
-  language: "JavaScript",
-  tags: "recursion, programming",
-  description: "Example recursion snippet.",
-  code: "function recurse() {\n  // ...\n}",
-};
+import { useGetSnippetQuery } from "../../hooks/queries/useGetSnippetQuery.ts";
 
 export type EditSnippetFormValues = {
   title: string;
@@ -23,23 +16,23 @@ export type EditSnippetFormValues = {
 };
 
 export function SnippetPage() {
-  // TODO: get real snippet data by snippetId (TanStack Router params + React Query)
-  const snippet = mockSnippet;
-  // const navigate = useNavigate();
+  const { snippetId } = useParams({ from: snippetRoute.id });
 
-  const handleSubmit = (values: EditSnippetFormValues) => {
-    // TODO: call update API here
-    console.log("Save snippet", values);
+  const { data: snippet } = useGetSnippetQuery(snippetId);
+
+  const initialValues = {
+    _id: snippet._id,
+    title: snippet.title,
+    language: snippet.language,
+    tags: snippet.tags.join(", "),
+    description: snippet.description,
+    code: snippet.code,
+    created_at: snippet.created_at,
   };
 
   const handleCancel = () => {
-    // TODO: navigate back to list or snippet detail
     window.history.back();
   };
-
-  // const { register, handleSubmit } = useForm<EditSnippetFormValues>({
-  //   defaultValues: {},
-  // });
 
   return (
     <>
@@ -50,8 +43,9 @@ export function SnippetPage() {
       <Header headerText="Edit snippet"/>
       <Card>
         <EditSnippetForm
-          onSubmit={handleSubmit}
           onClose={handleCancel}
+          snippetId={snippetId}
+          initialValues={initialValues}
         />
       </Card>
     </>

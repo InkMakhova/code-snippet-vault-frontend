@@ -1,81 +1,129 @@
+import { useEffect } from "react";
 import {
   Button, Heading, Input, Label, TextArea, TextField
 } from "react-aria-components";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 import styles from "./EditSnippetForm.module.css"
 import { CopyButton } from "../../components/CopyButton/CopyButton.tsx";
-import { useCreateSnippetMutation } from "../../hooks/mutations/useCreateSnippetMutation.ts";
 import { useToast } from "../../components/Toast/Toast.tsx";
+import { useCreateSnippetMutation } from "../../hooks/mutations/useCreateSnippetMutation.ts";
+import { useUpdateSnippetMutation } from "../../hooks/mutations/useUpdateSnippetMutation.ts";
 import type { CreateSnippetPayload } from "../../types/types.ts";
+import type { EditSnippetFormValues } from "../../pages/SnippetPage/SnippetPage.tsx";
+
+function getTagsArray(valuesString: string): string[] {
+  return valuesString
+    ?.split(',')
+    ?.map((tag) => tag.trim())
+    ?.filter((tag): tag is string => tag.length > 0) || [];
+}
+
+function getPayload(values: EditSnippetFormValues): CreateSnippetPayload {
+  return {
+    title: values.title,
+    language: values.language,
+    code: values.code,
+    description: values.description,
+    tags: getTagsArray(values.tags),
+  }
+}
 
 type SnippetFormValues = {
+  _id: string;
   title: string;
   language: string;
   tags: string;
   description: string;
   code: string;
+  created_at: string;
 };
 
 type Props = {
   onClose: () => void;
   isModal?: boolean;
+  snippetId?: string;
+  initialValues?: SnippetFormValues;
 };
 
 export function EditSnippetForm({
   onClose,
   isModal,
+  snippetId,
+  initialValues
 }: Props) {
   const {
-    register,
+    control,
     handleSubmit,
     reset,
   } = useForm<SnippetFormValues>({
-    defaultValues: {
+    defaultValues: initialValues ?? {
+      _id: "",
       title: "",
       language: "",
       tags: "",
       description: "",
       code: "",
+      created_at: "",
     },
   });
 
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues, { keepFieldsRef: true});
+    }
+  }, [initialValues, reset]);
+
   const { showToast } = useToast();
-  const { mutate, isPending } = useCreateSnippetMutation();
 
-  function handleCreateSnippet(
-    values: Omit<CreateSnippetPayload, "tags"> & { tags: string }
-  ) {
-    const tags = values.tags
-      ?.split(',')
-      ?.map((tag) => tag.trim())
-      ?.filter((tag): tag is string => tag.length > 0) || [];
+  const {
+    mutate: createSnippet,
+    isPending: isCreateSnippetPending
+  } = useCreateSnippetMutation();
 
-    const payload: CreateSnippetPayload = {
-      title: values.title,
-      language: values.language,
-      code: values.code,
-      description: values.description,
-      tags: tags,
-    };
+  const {
+    mutate: updateSnippet,
+    isPending: isUpdateSnippetPending
+  } = useUpdateSnippetMutation();
 
-    mutate(payload, {
-      onSuccess: () => {
-        showToast("Snippet created successfully!");
-        reset();
-        onClose();
+  const isPending = isCreateSnippetPending || isUpdateSnippetPending;
+  const submitButtonText = isModal ?
+    (isPending ? "Creating..." : "Create snippet") :
+    (isPending ? "Saving..." : "Save snippet");
+
+  function handleSuccess(message: string): void {
+    showToast(message);
+    reset();
+    onClose();
+  }
+
+  function handleCreateSnippet(values: EditSnippetFormValues) {
+    const payload = getPayload(values);
+    createSnippet(
+      payload,
+      {
+        onSuccess: () => handleSuccess("Snippet created successfully!"),
+        onError: () => showToast("Failed to created snippet"),
+      }
+    );
+  }
+
+  function handleUpdateSnippet(values: EditSnippetFormValues) {
+    const payload = getPayload(values);
+    updateSnippet(
+      { id: snippetId, data: payload },
+      {
+        onSuccess: () => handleSuccess("Snippet updated successfully!"),
+        onError: () => showToast("Failed to update snippet"),
       },
-      onError: () => {
-        showToast("Failed to create snippet");
-      },
-    });
+    );
   }
 
   return (
     <form
       className={styles.form}
       onSubmit={handleSubmit((values) => {
-        handleCreateSnippet(values)
+        isModal ? handleCreateSnippet(values) : handleUpdateSnippet(values);
       })}
     >
       {isModal && (
@@ -96,40 +144,67 @@ export function EditSnippetForm({
       <div className={styles.row}>
         <TextField className={styles.field}>
           <Label className={styles.label}>Title</Label>
-          <Input
-            className={styles.input}
-            {...register("title", { required: true })}
-            placeholder="input title"
+          <Controller
+            control={control}
+            name="title"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                className={styles.input}
+                placeholder="input title"
+              />
+            )}
           />
         </TextField>
 
         <TextField className={styles.field}>
           <Label className={styles.label}>Language</Label>
-          <Input
-            className={styles.input}
-            {...register("language", { required: true })}
-            placeholder="input language"
+          <Controller
+            control={control}
+            name="language"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                className={styles.input}
+                placeholder="input language"
+              />
+            )}
           />
         </TextField>
 
         <TextField className={styles.field}>
           <Label className={styles.label}>Tags</Label>
-          <Input
-            className={styles.input}
-            placeholder="comma separated"
-            {...register("tags")}
+          <Controller
+            control={control}
+            name="tags"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                className={styles.input}
+                placeholder="comma separated"
+              />
+            )}
           />
         </TextField>
       </div>
-
       <div className={styles.rowFull}>
         <TextField className={styles.fieldFull}>
           <Label className={styles.label}>Description</Label>
-          <TextArea
-            className={styles.textarea}
-            rows={3}
-            {...register("description")}
-            placeholder="input description"
+          <Controller
+            control={control}
+            name="description"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextArea
+                {...field}
+                className={styles.textarea}
+                rows={3}
+                placeholder="input description"
+              />
+            )}
           />
         </TextField>
       </div>
@@ -137,21 +212,29 @@ export function EditSnippetForm({
       <div className={styles.rowFull}>
         <TextField className={styles.fieldFull}>
           <Label className={styles.label}>Code</Label>
-            <TextArea
-              className={`${styles.textarea} ${styles.codeArea}`}
-              rows={20}
-              {...register("code", { required: true })}
-              placeholder="input code snippet"
-            />
-            {!isModal? (
-              <CopyButton
-                textToCopy={"some"}
-                toastText="Code copied!"
-                ariaLabel="copy code snippet"
-              />) : null
-            }
+          <Controller
+            control={control}
+            name="code"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <>
+                <TextArea
+                  {...field}
+                  className={`${styles.textarea} ${styles.codeArea}`}
+                  rows={20}
+                  placeholder="input code snippet"
+                />
+                {!isModal? (
+                  <CopyButton
+                    textToCopy={field.value}
+                    toastText="Code copied!"
+                    ariaLabel="copy code snippet"
+                  />): null
+                }
+              </>
+            )}
+          />
         </TextField>
-
       </div>
 
       <div className={styles.footer}>
@@ -171,7 +254,7 @@ export function EditSnippetForm({
           className={`${styles.submit} ${isPending ? styles.loading : ""}`}
           isDisabled={isPending}
         >
-          {isPending ? "Creating..." : "Create snippet"}
+          {submitButtonText}
         </Button>
       </div>
     </form>

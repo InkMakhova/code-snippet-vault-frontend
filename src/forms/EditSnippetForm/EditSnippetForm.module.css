@@ -109,6 +109,7 @@
 
 .cancel {
     padding: 8px 14px;
+    inline-size: 8rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-subtle);
     background: var(--bg-body);
@@ -118,6 +119,7 @@
 }
 
 .submit {
+    inline-size: 12rem;
     padding: 8px 16px;
     border-radius: var(--radius-md);
     border: none;
