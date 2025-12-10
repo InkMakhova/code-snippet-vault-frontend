@@ -23,7 +23,7 @@ export function SnippetsPage() {
           <SearchForm onSearch={() => {}} />
           <DialogTrigger>
             <Button onPress={() => setCreateSnippetModalOpen(true)}>
-              Create
+              Create snippet
             </Button>
             {createSnippetModalOpen && (
               <CreateSnippetModal

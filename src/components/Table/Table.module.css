@@ -45,15 +45,15 @@
 }
 
 .table td:has(pre) {
+    position: relative;
     padding-block: 0;
     width: 40%;
 }
 
 .pre {
-    position: relative;
     min-inline-size: 17rem;
     background: var(--bg-card);
-    padding: 0.625rem 1.75rem 0.625rem 0.75rem;
+    padding: 0.625rem 2.2rem 0.625rem 0.75rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-subtle);
     font-size: 0.75rem;
@@ -62,12 +62,13 @@
     line-height: 1.4;
     max-block-size: 10rem;
     overflow: auto;
+    font-family: var(--font-mono);
 }
 
 .pre button {
     position: absolute;
-    top: 0.35rem;
-    right: 0.25rem;
+    top: 1.3rem;
+    right: 1.5rem;
 }
 
 .menu-button {
