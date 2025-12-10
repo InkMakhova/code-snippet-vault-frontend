@@ -1,5 +1,6 @@
 import styles from "./SnippetPageSkeleton.module.css";
 import { Card } from "../../../components/Card/Card";
+import { Header } from "../../../components/Header/Header.tsx";
 import { Skeleton } from "../../../components/Skeleton/Skeleton";
 
 export function SnippetPageSkeleton() {
@@ -13,7 +14,7 @@ export function SnippetPageSkeleton() {
       </div>
 
       {/* Header */}
-      <Skeleton className={styles.pageTitle} />
+      <Header headerText="Edit snippet"/>
 
       <Card>
         {/* First row: Title / Language / Tags */}
