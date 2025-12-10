@@ -18,6 +18,8 @@ import { CopyButton } from "../CopyButton/CopyButton.tsx";
 import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
 import { useToast } from "../Toast/Toast.tsx";
 import type { Snippet } from "../../types/types.ts";
+import {useState} from "react";
+import {DeleteSnippetModal} from "../../modals/DeleteSnippetModal/DeleteSnippetModal.tsx";
 
 const columns = [
   "Title",
@@ -34,21 +36,37 @@ interface SnippetsTableProps {
 }
 
 export function Table({ snippets }: SnippetsTableProps) {
+  const [snippetToDelete, setSnippetToDelete] = useState<Snippet | null>(null);
+
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const { mutate } = useDeleteSnippetMutation();
+  const { mutate, isPending } = useDeleteSnippetMutation();
 
   function handleDelete(snippetId: string) {
     mutate(snippetId,{
       onSuccess: () => {
-        showToast("Successfully deleted snippet")
+        showToast("Successfully deleted snippet");
+        setSnippetToDelete(null);
       },
       onError: () => showToast("Failed to delete snippet"),
     })
   }
 
+  function confirmDelete() {
+    if (!snippetToDelete) return;
+    const { _id } = snippetToDelete;
+    handleDelete(_id);
+  }
+
   return (
     <div className={styles.container}>
+      <DeleteSnippetModal
+        isOpen={!!snippetToDelete}
+        snippetTitle={snippetToDelete?.title}
+        onConfirm={confirmDelete}
+        onClose={() => setSnippetToDelete(null)}
+        isPending={isPending}
+      />
       <AriaTable aria-label="Code snippets" className={styles.table}>
         <TableHeader>
           {columns.map((column: string, index: number) => (
@@ -93,7 +111,7 @@ export function Table({ snippets }: SnippetsTableProps) {
                       </MenuItem>
                       <MenuItem
                         className={styles["menu-item-delete"]}
-                        onAction={() => handleDelete(snippet._id)}
+                        onAction={() => setSnippetToDelete(snippet)}
                       >
                         Delete
                       </MenuItem>
