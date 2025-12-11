@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table as AriaTable,
   TableHeader,
@@ -15,11 +16,10 @@ import dayjs from "dayjs";
 
 import styles from "./Table.module.css";
 import { CopyButton } from "../CopyButton/CopyButton.tsx";
-import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
 import { useToast } from "../Toast/Toast.tsx";
+import { DeleteSnippetModal } from "../../modals/DeleteSnippetModal/DeleteSnippetModal.tsx";
+import { useDeleteSnippetMutation } from "../../hooks/mutations/useDeleteSnippetMutation.ts";
 import type { Snippet } from "../../types/types.ts";
-import {useState} from "react";
-import {DeleteSnippetModal} from "../../modals/DeleteSnippetModal/DeleteSnippetModal.tsx";
 
 const columns = [
   "Title",
