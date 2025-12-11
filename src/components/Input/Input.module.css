@@ -11,3 +11,20 @@
 .input::placeholder {
     color: var(--text-muted);
 }
+
+.input:disabled,
+.input[aria-disabled="true"] {
+    background: var(--bg-table-row-alt);
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.input:disabled::placeholder,
+.input[aria-disabled="true"]::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+

@@ -13,3 +13,10 @@
     background: var(--accent-hover);
     color: #fff;
 }
+
+.button:disabled {
+    background: var(--accent-soft);
+    color: var(--accent);
+    cursor: not-allowed;
+    opacity: 0.3;
+}

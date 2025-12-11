@@ -7,9 +7,10 @@ import type { SearchFormValues } from "../../types/types.ts";
 
 type Props = {
   onSearch: (query: string) => void;
+  isDisabled?: boolean;
 }
 
-export function SearchForm({ onSearch }: Props) {
+export function SearchForm({ onSearch, isDisabled }: Props) {
   const { register, handleSubmit } = useForm<SearchFormValues>({
     defaultValues: { query: "" },
   });
@@ -25,8 +26,9 @@ export function SearchForm({ onSearch }: Props) {
           {...register("query")}
           placeholder="search by language (e.g. JavaScript)"
           aria-label="search by language"
+          disabled={isDisabled}
         />
-        <Button type="submit">Apply</Button>
+        <Button type="submit" isDisabled={isDisabled}>Apply</Button>
       </div>
     </form>
   )
