@@ -29,6 +29,10 @@ function getPayload(values: EditSnippetFormValues): CreateSnippetPayload {
   }
 }
 
+function Error() {
+  return (<p className={styles.error}>Required</p>)
+}
+
 type SnippetFormValues = {
   _id: string;
   title: string;
@@ -56,6 +60,7 @@ export function EditSnippetForm({
     control,
     handleSubmit,
     reset,
+    formState: { errors },
   } = useForm<SnippetFormValues>({
     defaultValues: initialValues ?? {
       _id: "",
@@ -156,6 +161,7 @@ export function EditSnippetForm({
               />
             )}
           />
+          {errors.title && (<Error />)}
         </TextField>
 
         <TextField className={styles.field}>
@@ -172,6 +178,7 @@ export function EditSnippetForm({
               />
             )}
           />
+          {errors.language && (<Error />)}
         </TextField>
 
         <TextField className={styles.field}>
@@ -179,7 +186,6 @@ export function EditSnippetForm({
           <Controller
             control={control}
             name="tags"
-            rules={{ required: true }}
             render={({ field }) => (
               <Input
                 {...field}
@@ -196,7 +202,6 @@ export function EditSnippetForm({
           <Controller
             control={control}
             name="description"
-            rules={{ required: true }}
             render={({ field }) => (
               <TextArea
                 {...field}
@@ -234,6 +239,7 @@ export function EditSnippetForm({
               </>
             )}
           />
+          {errors.code && (<Error />)}
         </TextField>
       </div>
 
