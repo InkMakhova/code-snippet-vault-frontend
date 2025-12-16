@@ -13,7 +13,9 @@ import {
 } from "react-aria-components";
 import { useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
+import { snippetHighlighterTheme } from "../../theme/snippetHighlighterTheme";
 import styles from "./Table.module.css";
 import { CopyButton } from "../CopyButton/CopyButton.tsx";
 import { useToast } from "../Toast/Toast.tsx";
@@ -83,7 +85,19 @@ export function Table({ snippets }: SnippetsTableProps) {
               <Cell>{snippet.language}</Cell>
               <Cell>
                 <pre className={styles.pre}>
-                  <code>{snippet.code}</code>
+                  <code>
+                    <SyntaxHighlighter
+                      language={snippet.language || "plaintext"}
+                      style={snippetHighlighterTheme}
+                      customStyle={{
+                        margin: 0,
+                        background: "transparent",
+                      }}
+                      wrapLongLines
+                    >
+                      {snippet.code}
+                    </SyntaxHighlighter>
+                  </code>
                   <CopyButton
                     textToCopy={snippet.code}
                     toastText="Code copied!"
